@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base64 Translator</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; background-color: #f0f2f5; }
+        .card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); width: 90%; max-width: 500px; }
+        h2 { margin-top: 0; color: #1c1e21; text-align: center; }
+        textarea { width: 100%; height: 120px; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; box-sizing: border-box; resize: vertical; margin-bottom: 1rem; }
+        .btn-group { display: flex; gap: 10px; margin-bottom: 1rem; }
+        button { flex: 1; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; transition: background 0.2s; color: white; }
+        .btn-encode { background-color: #007bff; }
+        .btn-encode:hover { background-color: #0056b3; }
+        .btn-decode { background-color: #28a745; }
+        .btn-decode:hover { background-color: #218838; }
+        .label { font-size: 12px; font-weight: bold; color: #65676b; margin-bottom: 4px; display: block; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Base64 Tool</h2>
+    
+    <label class="label">INPUT</label>
+    <textarea id="input" placeholder="Type text or paste Base64 here..."></textarea>
+    
+    <div class="btn-group">
+        <button class="btn-encode" onclick="process(true)">Encode ⮕</button>
+        <button class="btn-decode" onclick="process(false)">⬅ Decode</button>
+    </div>
+    
+    <label class="label">RESULT</label>
+    <textarea id="output" placeholder="Output will appear here..." readonly></textarea>
+</div>
+
+<script>
+    function process(isEncode) {
+        const input = document.getElementById('input').value;
+        const output = document.getElementById('output');
+        
+        try {
+            if (isEncode) {
+                // handles Unicode by converting to UTF-8 before encoding
+                output.value = btoa(unescape(encodeURIComponent(input)));
+            } else {
+                // decodes and restores Unicode formatting
+                output.value = decodeURIComponent(escape(atob(input)));
+            }
+        } catch (e) {
+            output.value = "Error: " + (isEncode ? "Encoding failed." : "Invalid Base64 string.");
+        }
+    }
+</script>
+
+</body>
+</html>
